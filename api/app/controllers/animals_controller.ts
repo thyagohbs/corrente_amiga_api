@@ -1,17 +1,21 @@
 import Animal from '#models/animal'
 import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
-import { createAnimalValidator } from '#validators/animal'
+import { createAnimalValidator, updateAnimalValidator } from '#validators/animal'
 
 export default class AnimalsController {
-  /**
-   * Display a list of resource
-   */
-  async index({}: HttpContext) {}
+  async index({ response }: HttpContext) {
+    const usuarioAtual = response.ctx!.auth.user!
 
-  /**
-   * Display form to create a new record
-   */
+    // pega todos os animais do usuário atual
+    const animais = await usuarioAtual.related('animais').query()
+
+    return response.status(200).json({
+      success: true,
+      data: animais,
+    })
+  }
+
   async create({ request, response }: HttpContext) {
     await request.validateUsing(createAnimalValidator)
 
@@ -22,7 +26,7 @@ export default class AnimalsController {
     const user = await User.find(userId)
 
     if (!user) {
-      return response.status(404).json({ success: false, message: 'Usuário não encontrado' })
+      return response.status(404).json({ success: false, message: 'Usuário não encontrado!' })
     }
 
     const animal = await Animal.create({ userId, nome, especie })
@@ -30,27 +34,67 @@ export default class AnimalsController {
     return response.status(201).json({ success: true, data: animal })
   }
 
-  /**
-   * Handle form submission for the create action
-   */
-  async store({ request }: HttpContext) {}
-  /**
-   * Show individual record
-   */
-  async show({ params }: HttpContext) {}
+  async getById({ response, params }: HttpContext) {
+    const animal = await Animal.findOrFail(params.id)
 
-  /**
-   * Edit individual record
-   */
-  async edit({ params }: HttpContext) {}
+    if (!animal) {
+      return response.status(404).json({
+        success: false,
+        message: 'Animal não encontrado!',
+      })
+    }
 
-  /**
-   * Handle form submission for the edit action
-   */
-  async update({ params, request }: HttpContext) {}
+    return response.status(200).json({
+      success: true,
+      message: 'Animal criado com sucesso!',
+      data: animal,
+    })
+  }
 
-  /**
-   * Delete record
-   */
-  async destroy({ params }: HttpContext) {}
+  async update({ request, response, params }: HttpContext) {
+    await request.validateUsing(updateAnimalValidator)
+
+    const { nome, especie } = request.only(['nome', 'especie'])
+    const userId = request.input('userId')
+
+    const user = await User.find(userId)
+
+    if (!user) {
+      return response.status(404).json({
+        success: false,
+        message: 'Usuário não encontrado!',
+      })
+    }
+
+    const animal = await Animal.find(params.id)
+
+    if (!animal) {
+      return response.status(404).json({
+        success: false,
+        message: 'Animal não encontrado!',
+      })
+    }
+
+    animal.nome = nome
+    animal.especie = especie
+    animal.userId = userId
+
+    await animal.save()
+
+    response.status(200).json({
+      success: true,
+      data: animal,
+    })
+  }
+
+  async delete({ response, params }: HttpContext) {
+    const animal = await Animal.findOrFail(params.id)
+
+    await animal.delete()
+
+    return response.status(200).json({
+      success: true,
+      message: 'Animal deletado com sucesso!',
+    })
+  }
 }
