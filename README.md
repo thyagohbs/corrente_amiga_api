@@ -33,24 +33,26 @@ A aplicação permite gerenciar usuários e animais, com autenticação e autori
 
 4. Carregue o arquivo db.sql para criar a base de dados
 
-5. Configure o banco de dados no arquivo `.env`:
+5. Crie a APP_KEY atraves do comando:
+
+   ```sh
+   node ace generate:key
    ```
+   
+6. Configure o banco de dados no arquivo `.env`:
+   ```
+   TZ=UTC
+   PORT=3333
+   HOST=localhost
+   LOG_LEVEL=info
+   APP_KEY=
+   NODE_ENV=development
    DB_HOST=127.0.0.1
    DB_PORT=3306
    DB_USER=seusuario
    DB_PASSWORD=suasenha
    DB_DATABASE=corrente_amiga
    ```
-
-## Rodando o Projeto
-
-1. Inicie o servidor:
-
-   ```sh
-   npm run dev
-   ```
-
-2. O servidor estará disponível em `http://localhost:3333`.
 
 ## Rodando as Migrations
 
@@ -59,6 +61,16 @@ A aplicação permite gerenciar usuários e animais, com autenticação e autori
    node ace migration:run
    ```
 
+## Rodando o Projeto
+
+1. Inicie o servidor:
+
+   ```sh
+   npm run dev  ou node ace serve --hmr
+   ```
+
+2. O servidor estará disponível em `http://localhost:3333`.
+   
 ## Testes
 
 1. Para rodar os testes, execute:
@@ -73,6 +85,13 @@ A aplicação permite gerenciar usuários e animais, com autenticação e autori
 - `database/`: Contém as migrations e seeds.
 - `start/`: Contém os arquivos de inicialização do servidor.
 - `tests/`: Contém os testes unitários e funcionais.
+
+## Rotas configuradas no projeto
+
+1. Para listar as rotas configuradas no projeto:
+   ```sh
+   node ace list:routes
+   ```
 
 ## Contribuição
 
