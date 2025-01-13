@@ -1,5 +1,5 @@
 import Animal from '#models/animal'
-import User from '#models/user'
+import User from '#models/usuario'
 import type { HttpContext } from '@adonisjs/core/http'
 import { createAnimalValidator, updateAnimalValidator } from '#validators/animal'
 
@@ -8,7 +8,7 @@ export default class AnimalsController {
     const usuarioAtual = response.ctx!.auth.user!
 
     // pega todos os animais do usuário atual
-    const animais = await usuarioAtual.related('animais').query()
+    const animais = await usuarioAtual!.related('animals').query()
 
     return response.status(200).json({
       success: true,

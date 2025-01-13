@@ -29,7 +29,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare telefone: string | null
 
   @hasMany(() => Animal)
-  declare animais: HasMany<typeof Animal>
+  declare animals: HasMany<typeof Animal>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
