@@ -9,8 +9,8 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-const AuthController = await import('#controllers/auth_controller')
-const AnimalController = await import('#controllers/animals_controller')
+const AuthController = () => import('#controllers/auth_controller')
+const AnimalController = () => import('#controllers/animals_controller')
 
 router.get('/', async () => {
   return {
@@ -19,17 +19,16 @@ router.get('/', async () => {
 })
 router
   .group(() => {
-    router.post('/register', 'AuthController.register')
-    router.post('/login', 'AuthController.login')
+    router.post('/register', [AuthController, 'register'])
+    router.post('/login', [AuthController, 'login'])
 
     router
       .group(() => {
-        // router.get('/me', 'AuthController.me')
-        router.get('/animais', 'AnimalController.index')
-        router.post('/animais', 'AnimalController.create')
-        router.get('/animais/:id', 'AnimalController.getById')
-        router.put('/animais/:id', 'AnimalController.update')
-        router.delete('/animais/:id', 'AnimalController.delete')
+        router.get('/animais', [AnimalController, 'index'])
+        router.post('/animais', [AnimalController, 'create'])
+        router.get('/animais/:id', [AnimalController, 'getById'])
+        router.put('/animais/:id', [AnimalController, 'update'])
+        router.delete('/animais/:id', [AnimalController, 'delete'])
       })
       .use(middleware.auth())
   })
