@@ -6,55 +6,8 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
 -- -----------------------------------------------------
--- Schema eu_doei
+-- Schema corrente_amiga
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema eu_doei
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `eu_doei` ;
-USE `eu_doei` ;
-
--- -----------------------------------------------------
--- Table `eu_doei`.`usuario`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `eu_doei`.`usuario` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(255) NOT NULL,
-  `apelido` VARCHAR(255) NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `estado` VARCHAR(255) NULL,
-  `cidade` VARCHAR(255) NULL,
-  `bairro` VARCHAR(255) NULL,
-  `contato` VARCHAR(30) NULL,
-  `tipo` ENUM('normal', 'admin') NOT NULL DEFAULT 'normal',
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `eu_doei`.`item`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `eu_doei`.`item` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(255) NOT NULL,
-  `descricao` LONGTEXT NULL,
-  `estado_conservacao` ENUM('novo', 'usado', 'reformado') NOT NULL,
-  `fotos` JSON NULL,
-  `usuario_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_item_usuario_idx` (`usuario_id` ASC) VISIBLE,
-  CONSTRAINT `fk_item_usuario`
-    FOREIGN KEY (`usuario_id`)
-    REFERENCES `eu_doei`.`usuario` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+CREATE SCHEMA IF NOT EXISTS `corrente_amiga` ;
+USE `corrente_amiga` ;
