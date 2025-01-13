@@ -18,10 +18,10 @@ export default class extends BaseSchema {
       table.decimal('latitude', 9, 6)
       table.decimal('longitude', 9, 6)
       table
-        .integer('usuario_id')
+        .integer('users_id')
         .unsigned()
         .references('id')
-        .inTable('usuarios')
+        .inTable('users')
         .onDelete('CASCADE')
       table.timestamp('created_at')
       table.timestamp('updated_at')
