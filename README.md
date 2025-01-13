@@ -2,8 +2,10 @@
 
 ## Descrição
 
-Este é o backend da aplicação Corrente Amiga, construída com AdonisJS. 
-A aplicação permite gerenciar usuários e animais, com autenticação e autorização.
+Este é o backend da aplicação Corrente Amiga, construída com AdonisJS.
+ 
+A aplicação permite: 
+- Gerenciar usuários e animais, com autenticação e autorização.
 
 ## Pré-requisitos
 
