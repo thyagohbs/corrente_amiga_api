@@ -1,4 +1,4 @@
-# Corrente Amiga API
+# API - Corrente Amiga
 
 ## Descrição
 
