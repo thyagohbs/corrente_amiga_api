@@ -27,6 +27,8 @@ router
         router.get('/animais', [AnimalController, 'index'])
         router.post('/animais', [AnimalController, 'create'])
         router.get('/animais/:id', [AnimalController, 'getById'])
+        router.get('/animais/status/:status', [AnimalController, 'getAnimalsByStatus'])
+        router.get('/animais/filtrar/:campo/:valor', [AnimalController, 'getAnimalsByFilter'])        
         router.put('/animais/:id', [AnimalController, 'update'])
         router.delete('/animais/:id', [AnimalController, 'delete'])
       })
