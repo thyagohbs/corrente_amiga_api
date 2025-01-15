@@ -9,8 +9,10 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+import auth from '@adonisjs/auth/services/main'
 const AuthController = () => import('#controllers/auth_controller')
 const AnimalController = () => import('#controllers/animals_controller')
+const NotificacaoController = () => import('#controllers/notificacaos_controller')
 
 router.get('/', async () => {
   return {
@@ -30,6 +32,14 @@ router
         router.get('/animais/:campo/:valor', [AnimalController, 'filter']).as('animais.filter')
         router.put('/animais/:id', [AnimalController, 'update']).as('animais.update')
         router.delete('/animais/:id', [AnimalController, 'destroy']).as('animais.destroy')
+      })
+      .use(middleware.auth())
+
+    router
+      .group(() => {
+        router
+          .post('/notificacao/create', [NotificacaoController, 'create'])
+          .as('notificacao.create')
       })
       .use(middleware.auth())
   })
