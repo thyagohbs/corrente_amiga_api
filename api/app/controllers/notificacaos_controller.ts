@@ -8,7 +8,7 @@ export default class NotificacaosController {
   async create({ request, response }: HttpContext) {
     const userId = response.ctx!.auth.user!.id
 
-    const dados = request.only(['especie', 'raca', 'porte', 'sexo', 'idade_minima', 'idade_maxima'])
+    const dados = request.body()
 
     const user = await User.find(userId)
 
