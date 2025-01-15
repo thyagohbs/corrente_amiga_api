@@ -24,14 +24,13 @@ router
 
     router
       .group(() => {
-        router.get('/animais', [AnimalController, 'index'])
-        router.post('/animais', [AnimalController, 'create'])
-        router.get('/animais/:id', [AnimalController, 'getById'])
-        router.get('/animais/status/:status', [AnimalController, 'getAnimalsByStatus'])
-        router.get('/animais/filtrar/:campo/:valor', [AnimalController, 'getAnimalsByFilter'])        
-        router.put('/animais/:id', [AnimalController, 'update'])
-        router.delete('/animais/:id', [AnimalController, 'delete'])
+        router.get('/animais', [AnimalController, 'index']).as('animais.index')
+        router.post('/animais/create', [AnimalController, 'create']).as('animais.create')
+        router.get('/animais/:id/edit', [AnimalController, 'edit']).as('animais.edit')
+        router.get('/animais/:campo/:valor', [AnimalController, 'filter']).as('animais.filter')
+        router.put('/animais/:id', [AnimalController, 'update']).as('animais.update')
+        router.delete('/animais/:id', [AnimalController, 'destroy']).as('animais.destroy')
       })
       .use(middleware.auth())
   })
-  .prefix('api')
+  .prefix('/api')
