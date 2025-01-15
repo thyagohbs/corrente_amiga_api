@@ -6,6 +6,7 @@ import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import hash from '@adonisjs/core/services/hash'
 import Animal from './animal.js'
+import Notificacao from './notificacao.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -27,6 +28,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column()
   declare telefone: string | null
+
+  @hasMany(() => Notificacao)
+  declare notificacao: HasMany<typeof Notificacao>
 
   @hasMany(() => Animal)
   declare animals: HasMany<typeof Animal>
