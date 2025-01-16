@@ -34,7 +34,46 @@ export default class AnimalsController {
     return response.status(201).json({ success: true, data: animal })
   }
 
-  async getById({ response, params }: HttpContext) {
+  async filter({ response, params }: HttpContext) {
+    const { campo, valor } = params
+
+    var animais = null
+
+    switch (campo) {
+      case 'especie':
+        animais = await Animal.query().where('especie', 'like', `%${valor.toLowerCase()}%`)
+        break
+
+      case 'raca':
+        animais = await Animal.query().where('raca', 'like', `%${valor.toLowerCase()}%`)
+        break
+
+      case 'porte':
+        animais = await Animal.query().where('porte', 'like', `%${valor.toLowerCase()}%`)
+        break
+
+      case 'sexo':
+        animais = await Animal.query().where('sexo', 'like', `%${valor.toLowerCase()}%`)
+        break
+
+      default:
+        animais = await Animal.query().where('status', 'disponivel')
+    }
+
+    if (!animais.length) {
+      return response.status(404).json({
+        success: false,
+        message: 'Animais não encontrados!',
+      })
+    }
+
+    return response.status(200).json({
+      success: true,
+      data: animais,
+    })
+  }
+
+  async edit({ response, params }: HttpContext) {
     const animal = await Animal.findOrFail(params.id)
 
     if (!animal) {
@@ -46,7 +85,6 @@ export default class AnimalsController {
 
     return response.status(200).json({
       success: true,
-      message: 'Animal criado com sucesso!',
       data: animal,
     })
   }
@@ -87,7 +125,7 @@ export default class AnimalsController {
     })
   }
 
-  async delete({ response, params }: HttpContext) {
+  async destroy({ response, params }: HttpContext) {
     const animal = await Animal.findOrFail(params.id)
 
     await animal.delete()
