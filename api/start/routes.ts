@@ -9,18 +9,18 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-import auth from '@adonisjs/auth/services/main'
 const AuthController = () => import('#controllers/auth_controller')
 const AnimalController = () => import('#controllers/animals_controller')
 const NotificacaoController = () => import('#controllers/notificacaos_controller')
 
-router.get('/', async () => {
-  return {
-    hello: 'world',
-  }
-})
 router
   .group(() => {
+    router.get('/', async () => {
+      return {
+        hello: 'Bem vindo a API - Corrente Amiga',
+      }
+    })
+
     router.post('/register', [AuthController, 'register'])
     router.post('/login', [AuthController, 'login'])
 
